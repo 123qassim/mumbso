@@ -73,7 +73,7 @@ EXECUTE FUNCTION public.update_updated_at_column();
 
 -- Insert sample testimonials
 INSERT INTO public.testimonials (name, role, content, featured) VALUES
-('Dr. Sarah Johnson', 'Lecturer - Molecular Biology', 'The students in MUMBSO demonstrate exceptional dedication to advancing biotechnology research. Their initiatives inspire the next generation.', true),
+('Dr. Sarah Johnson', 'Lecturer - Medical Biotechnology', 'The students in MUMBSO demonstrate exceptional dedication to advancing biotechnology research. Their initiatives inspire the next generation.', true),
 ('Michael Chen', 'Alumni - Class of 2023', 'Being part of MUMBSO was transformative. The hands-on research experience and mentorship prepared me for my career in biotech.', true),
 ('Emily Rodriguez', 'Current Member', 'MUMBSO provides incredible opportunities to engage with cutting-edge research and connect with industry professionals.', false);
 

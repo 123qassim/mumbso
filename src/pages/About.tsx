@@ -2,7 +2,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
 import { Card, CardContent } from "@/components/ui/card";
-import { Target, Eye, Heart, Users, Award, Lightbulb } from "lucide-react";
+import { Target, Eye, Stethoscope, Users, Award, Lightbulb } from "lucide-react";
 import aboutBg from "@/assets/about-bg.jpg";
 
 const About = () => {
@@ -113,7 +113,7 @@ const About = () => {
             <Card>
               <CardContent className="p-6 text-center">
                 <div className="mb-4 inline-flex items-center justify-center rounded-lg bg-accent/10 p-3">
-                  <Heart className="h-6 w-6 text-accent" />
+                  <Stethoscope className="h-6 w-6 text-accent" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Community Service</h3>
                 <p className="text-muted-foreground">

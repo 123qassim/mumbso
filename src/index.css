@@ -8,6 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
+    /* Light Mode */
     --background: 0 0% 100%;
     --foreground: 210 12% 16%;
 
@@ -18,19 +19,19 @@ All colors MUST be HSL.
     --popover-foreground: 210 12% 16%;
 
     /* Biotech primary - teal green */
-    --primary: 174 62% 47%;
+    --primary: 174 62% 35%;
     --primary-foreground: 0 0% 100%;
     --primary-glow: 174 62% 67%;
 
     /* Biotech secondary - deep blue */
-    --secondary: 210 100% 48%;
+    --secondary: 210 100% 35%;
     --secondary-foreground: 0 0% 100%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
     /* Biotech accent - bright green */
-    --accent: 142 76% 36%;
+    --accent: 142 76% 28%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -38,24 +39,25 @@ All colors MUST be HSL.
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 174 62% 47%;
+    --ring: 174 62% 35%;
 
     --radius: 0.75rem;
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(174 62% 47%), hsl(210 100% 48%));
-    --gradient-accent: linear-gradient(135deg, hsl(142 76% 36%), hsl(174 62% 47%));
+    --gradient-hero: linear-gradient(135deg, hsl(174 62% 35%), hsl(210 100% 35%));
+    --gradient-accent: linear-gradient(135deg, hsl(142 76% 28%), hsl(174 62% 35%));
     --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(174 62% 98%));
 
     /* Shadows */
-    --shadow-glow: 0 0 40px hsl(174 62% 67% / 0.3);
-    --shadow-card: 0 10px 30px -10px hsl(174 62% 47% / 0.2);
+    --shadow-glow: 0 0 40px hsl(174 62% 47% / 0.3);
+    --shadow-card: 0 10px 30px -10px hsl(174 62% 35% / 0.2);
 
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .dark {
+    /* Dark Mode */
     --background: 210 20% 8%;
     --foreground: 0 0% 98%;
 
@@ -65,28 +67,29 @@ All colors MUST be HSL.
     --popover: 210 20% 12%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 174 62% 57%;
+    /* Lighter/brighter colors for dark mode */
+    --primary: 174 68% 48%;
     --primary-foreground: 210 20% 8%;
-    --primary-glow: 174 62% 77%;
+    --primary-glow: 174 68% 68%;
 
-    --secondary: 210 100% 58%;
+    --secondary: 210 100% 50%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 20% 18%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 210 20% 25%;
+    --muted-foreground: 0 0% 72%;
 
-    --accent: 142 76% 46%;
+    --accent: 142 76% 45%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 62.8% 50.6%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 20% 18%;
-    --input: 210 20% 18%;
-    --ring: 174 62% 57%;
+    --border: 210 20% 20%;
+    --input: 210 20% 20%;
+    --ring: 174 68% 48%;
     
-    --gradient-hero: linear-gradient(135deg, hsl(174 62% 37%), hsl(210 100% 38%));
-    --gradient-accent: linear-gradient(135deg, hsl(142 76% 26%), hsl(174 62% 37%));
+    --gradient-hero: linear-gradient(135deg, hsl(174 68% 40%), hsl(210 100% 42%));
+    --gradient-accent: linear-gradient(135deg, hsl(142 76% 35%), hsl(174 68% 45%));
   }
 }
 

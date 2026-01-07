@@ -1,6 +1,6 @@
 # MUMBSO Website
 
-A modern, responsive website for the Muslim Urban Business and Scientific Organization.
+A modern, responsive website for the Maseno University Medical Biotechnology Students Organization (MUMBSO).
 
 ## Getting Started
 

@@ -141,6 +141,47 @@ const Index = () => {
       {/* Testimonials */}
       <Testimonials />
 
+      {/* Support Us CTA */}
+      <section className="py-20 bg-muted/50">
+        <div className="container">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-6">
+                Help Us Make a Difference
+              </h2>
+              <p className="text-lg text-muted-foreground mb-6">
+                MUMBSO relies on the generosity of donors, sponsors, and partners to continue our mission of advancing biotechnology education, research, and community health.
+              </p>
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-primary rounded-full"></div>
+                  <span className="text-muted-foreground">Fund student workshops and training programs</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-primary rounded-full"></div>
+                  <span className="text-muted-foreground">Support groundbreaking research projects</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-primary rounded-full"></div>
+                  <span className="text-muted-foreground">Enable community health and outreach initiatives</span>
+                </li>
+              </ul>
+              <Button asChild variant="hero" size="lg">
+                <Link to="/contribution">Support MUMBSO Today</Link>
+              </Button>
+            </div>
+            <div className="bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 rounded-2xl p-12 text-center">
+              <div className="text-5xl font-bold text-primary mb-4">500+</div>
+              <p className="text-lg font-semibold mb-4">Students Impacted</p>
+              <div className="text-3xl font-bold text-secondary mb-6">30+</div>
+              <p className="text-lg font-semibold">Programs Delivered</p>
+              <div className="text-3xl font-bold text-accent mt-6">100%</div>
+              <p className="text-lg font-semibold">Community Focused</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Newsletter */}
       <section className="py-20 bg-gradient-hero">
         <div className="container text-center">

@@ -12,7 +12,7 @@ export const Hero = () => {
           alt="Medical Biotechnology Laboratory"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/75 to-primary/50" />
       </div>
 
       {/* Animated DNA Helix & Molecules */}

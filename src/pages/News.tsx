@@ -39,7 +39,7 @@ const News = () => {
       <SEO
         title="News & Blog - Latest Updates"
         description="Stay updated with the latest news, articles, and insights from MUMBSO. Read about biotechnology research, events, and student achievements."
-        keywords="MUMBSO news, biotech updates, molecular biology articles, student blog, biotechnology insights"
+        keywords="MUMBSO news, biotech updates, medical biotechnology articles, student blog, biotechnology insights"
       />
       <div className="min-h-screen bg-background">
         <Header />

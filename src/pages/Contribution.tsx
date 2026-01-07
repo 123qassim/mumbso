@@ -2,7 +2,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Building2, Copy, Heart, Users } from "lucide-react";
+import { Building2, Copy, Stethoscope, Users, Heart, Briefcase, BookOpen, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -11,6 +11,79 @@ const Contribution = () => {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied to clipboard!`);
   };
+
+  const donationTiers = [
+    {
+      name: "Friend",
+      amount: "500 KES",
+      description: "Monthly supporter",
+      benefits: [
+        "Recognition on our newsletter",
+        "Tax receipt",
+        "Monthly impact updates"
+      ],
+      icon: Heart,
+      highlight: false
+    },
+    {
+      name: "Sponsor",
+      amount: "2,500 KES",
+      description: "Quarterly supporter",
+      benefits: [
+        "All Friend benefits",
+        "Sponsorship certificate",
+        "Featured on website",
+        "Event invitations",
+        "Direct impact reports"
+      ],
+      icon: Briefcase,
+      highlight: true
+    },
+    {
+      name: "Partner",
+      amount: "10,000 KES+",
+      description: "Major supporter",
+      benefits: [
+        "All Sponsor benefits",
+        "Custom partnership agreement",
+        "Brand visibility",
+        "Quarterly strategy meetings",
+        "Naming rights options"
+      ],
+      icon: Building2,
+      highlight: false
+    }
+  ];
+
+  const supportWays = [
+    {
+      icon: Heart,
+      title: "Financial Donations",
+      description: "Make direct monetary contributions to support our programs"
+    },
+    {
+      icon: BookOpen,
+      title: "Sponsor a Workshop",
+      description: "Fund a specific training program or research project"
+    },
+    {
+      icon: Users,
+      title: "Volunteer Your Time",
+      description: "Share your expertise and mentor our students"
+    },
+    {
+      icon: Briefcase,
+      title: "Corporate Partnership",
+      description: "Partner with us for mutually beneficial opportunities"
+    }
+  ];
+
+  const impactStats = [
+    { number: "500+", label: "Students Reached", color: "text-primary" },
+    { number: "15+", label: "Research Projects", color: "text-secondary" },
+    { number: "30+", label: "Workshops Conducted", color: "text-accent" },
+    { number: "100%", label: "Community Impact", color: "text-primary" }
+  ];
 
   return (
     <>
@@ -26,13 +99,28 @@ const Contribution = () => {
         <section className="relative py-20 overflow-hidden">
           <div className="absolute inset-0 z-0 bg-gradient-to-r from-primary via-primary/90 to-secondary" />
           <div className="container text-center relative z-10">
-            <Heart className="h-16 w-16 mx-auto mb-6 text-white" />
+            <Stethoscope className="h-16 w-16 mx-auto mb-6 text-white" />
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6 text-white">
               Support MUMBSO
             </h1>
             <p className="text-xl text-white/95 max-w-3xl mx-auto">
-              Your contribution helps us empower the next generation of biotechnology professionals
+              Your contribution helps us empower the next generation of biotechnology professionals and advance medical research
             </p>
+          </div>
+        </section>
+
+        {/* Impact Statistics */}
+        <section className="py-20 bg-muted/30">
+          <div className="container">
+            <h2 className="text-3xl font-bold text-center mb-16">Our Impact So Far</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {impactStats.map((stat, idx) => (
+                <div key={idx} className="text-center">
+                  <div className={`text-5xl font-bold mb-3 ${stat.color}`}>{stat.number}</div>
+                  <p className="text-lg text-muted-foreground">{stat.label}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -42,7 +130,7 @@ const Contribution = () => {
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold tracking-tight mb-4">Why Your Support Matters</h2>
               <p className="text-lg text-muted-foreground">
-                Your generous contributions enable us to continue our mission of advancing biotechnology education and research
+                Your generous contributions enable us to continue our mission of advancing biotechnology education, research, and community health
               </p>
             </div>
 
@@ -54,7 +142,7 @@ const Contribution = () => {
                   </div>
                   <h3 className="text-xl font-semibold mb-2">Student Development</h3>
                   <p className="text-muted-foreground">
-                    Fund workshops, seminars, and training programs for our members
+                    Fund workshops, seminars, training programs, and mentorship initiatives for our members
                   </p>
                 </CardContent>
               </Card>
@@ -62,11 +150,11 @@ const Contribution = () => {
               <Card>
                 <CardContent className="p-6 text-center">
                   <div className="mb-4 inline-flex items-center justify-center rounded-lg bg-secondary/10 p-3">
-                    <Building2 className="h-8 w-8 text-secondary" />
+                    <TrendingUp className="h-8 w-8 text-secondary" />
                   </div>
                   <h3 className="text-xl font-semibold mb-2">Research Projects</h3>
                   <p className="text-muted-foreground">
-                    Support groundbreaking research in medical biotechnology
+                    Support groundbreaking student-led research in medical biotechnology and public health
                   </p>
                 </CardContent>
               </Card>
@@ -74,17 +162,100 @@ const Contribution = () => {
               <Card>
                 <CardContent className="p-6 text-center">
                   <div className="mb-4 inline-flex items-center justify-center rounded-lg bg-accent/10 p-3">
-                    <Heart className="h-8 w-8 text-accent" />
+                    <Stethoscope className="h-8 w-8 text-accent" />
                   </div>
                   <h3 className="text-xl font-semibold mb-2">Community Outreach</h3>
                   <p className="text-muted-foreground">
-                    Enable health education programs and community initiatives
+                    Enable health education programs, community screenings, and capacity building initiatives
                   </p>
                 </CardContent>
               </Card>
             </div>
+          </div>
+        </section>
 
-            {/* Bank Details Card */}
+        {/* Ways to Support Section */}
+        <section className="py-20 bg-muted/30">
+          <div className="container">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold tracking-tight mb-4">Ways to Support MUMBSO</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                There are many ways you can make a difference in the lives of our students and communities
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {supportWays.map((way, idx) => {
+                const IconComponent = way.icon;
+                return (
+                  <Card key={idx} className="hover:shadow-card transition-all">
+                    <CardContent className="p-6 text-center">
+                      <div className="mb-4 inline-flex items-center justify-center rounded-lg bg-primary/10 p-3">
+                        <IconComponent className="h-6 w-6 text-primary" />
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2">{way.title}</h3>
+                      <p className="text-sm text-muted-foreground">{way.description}</p>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* Donation Tiers */}
+        <section className="py-20">
+          <div className="container">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold tracking-tight mb-4">Become a MUMBSO Supporter</h2>
+              <p className="text-lg text-muted-foreground">
+                Choose a tier that works best for you and join our mission
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              {donationTiers.map((tier, idx) => {
+                const TierIcon = tier.icon;
+                return (
+                  <Card key={idx} className={`relative transition-all ${tier.highlight ? "ring-2 ring-primary shadow-lg scale-105" : "hover:shadow-card"}`}>
+                    {tier.highlight && (
+                      <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                        <span className="bg-primary text-white px-4 py-1 rounded-full text-sm font-semibold">
+                          Most Popular
+                        </span>
+                      </div>
+                    )}
+                    <CardHeader className="text-center pt-8">
+                      <div className="mb-4 inline-flex items-center justify-center rounded-lg bg-primary/10 p-3 mx-auto">
+                        <TierIcon className="h-8 w-8 text-primary" />
+                      </div>
+                      <CardTitle className="text-2xl">{tier.name}</CardTitle>
+                      <p className="text-muted-foreground text-sm">{tier.description}</p>
+                      <div className="text-3xl font-bold text-primary mt-4">{tier.amount}</div>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <ul className="space-y-3">
+                        {tier.benefits.map((benefit, bidx) => (
+                          <li key={bidx} className="flex items-start gap-2 text-sm">
+                            <Heart className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
+                            <span>{benefit}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <Button variant={tier.highlight ? "hero" : "outline"} className="w-full" size="lg">
+                        Choose {tier.name}
+                      </Button>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* Bank Details Card */}
+        <section className="py-20 bg-muted/30">
+          <div className="container max-w-4xl">
             <Card className="border-2 border-primary/20">
               <CardHeader className="text-center">
                 <CardTitle className="text-2xl">Make a Donation</CardTitle>
@@ -137,22 +308,42 @@ const Contribution = () => {
                 <div className="bg-primary/5 p-4 rounded-lg">
                   <p className="text-sm text-center text-muted-foreground">
                     <strong>Note:</strong> Please send us an email at{" "}
-                    <a href="mailto:contact@mumbso.org" className="text-primary hover:underline">
-                      contact@mumbso.org
+                    <a href="mailto:masenomedicalbiotechnologists@gmail.com" className="text-primary hover:underline">
+                      masenomedicalbiotechnologists@gmail.com
                     </a>{" "}
                     after making a donation so we can acknowledge your contribution and provide a receipt.
                   </p>
                 </div>
               </CardContent>
             </Card>
+          </div>
+        </section>
 
-            {/* Thank You Message */}
-            <div className="mt-12 text-center">
-              <h3 className="text-2xl font-bold mb-4">Thank You for Your Support!</h3>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Every contribution, no matter the size, makes a significant impact on our mission to empower Medical Biotechnology students and advance scientific discovery. Your generosity helps shape the future of healthcare in Kenya and beyond.
-              </p>
+        {/* Call to Action */}
+        <section className="py-20">
+          <div className="container text-center max-w-3xl">
+            <h2 className="text-3xl font-bold mb-6">Ready to Make a Difference?</h2>
+            <p className="text-lg text-muted-foreground mb-8">
+              Join our community of supporters in advancing medical biotechnology education and research. Every contribution, no matter the size, makes a significant impact on our mission to empower students and improve public health in Kenya and beyond.
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Button asChild variant="hero" size="lg">
+                <a href="#support">Support MUMBSO</a>
+              </Button>
+              <Button asChild variant="outline" size="lg">
+                <a href="/contact">Get in Touch</a>
+              </Button>
             </div>
+          </div>
+        </section>
+
+        {/* Thank You Message */}
+        <section className="py-20 bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10">
+          <div className="container text-center max-w-3xl">
+            <h3 className="text-2xl font-bold mb-4">Thank You for Your Support!</h3>
+            <p className="text-lg text-muted-foreground">
+              Your generosity helps us shape the future of healthcare in Kenya and beyond. Together, we're building a community of compassionate, skilled biotechnology professionals who will drive innovation and improve lives. With your support, we're not just changing individual lives—we're transforming the landscape of medical biotechnology in Africa.
+            </p>
           </div>
         </section>
 

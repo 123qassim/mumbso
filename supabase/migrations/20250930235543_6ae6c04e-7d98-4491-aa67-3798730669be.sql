@@ -33,7 +33,7 @@ INSERT INTO public.gallery (title, image_url, category) VALUES
 
 -- Year 2 students
 ('Year 2 Microscopy Workshop', 'https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=800', 'Year 2'),
-('Molecular Biology Practical', 'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=800', 'Year 2'),
+('Medical Biotechnology Practical', 'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=800', 'Year 2'),
 
 -- Year 3 students
 ('Year 3 Research Project', 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800', 'Year 3'),

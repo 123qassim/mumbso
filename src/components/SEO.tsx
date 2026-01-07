@@ -9,9 +9,9 @@ interface SEOProps {
 }
 
 export const SEO = ({
-  title = "MUMBSO - Mbarara University Molecular Biology Students Organization",
-  description = "Join MUMBSO to explore biotechnology research, engage in hands-on lab experiences, and connect with industry professionals. Advancing molecular biology education and research.",
-  keywords = "MUMBSO, molecular biology, biotechnology, research, Mbarara University, biotech students, laboratory, scientific research, Uganda",
+  title = "MUMBSO - Maseno University Medical Biotechnology Students Organization",
+  description = "Join MUMBSO to explore biotechnology research, engage in hands-on lab experiences, and connect with industry professionals. Advancing medical biotechnology education and research.",
+  keywords = "MUMBSO, medical biotechnology, biotechnology, research, Maseno University, biotech students, laboratory, scientific research, Uganda",
   image = "/og-image.jpg",
   url = window.location.href,
 }: SEOProps) => {

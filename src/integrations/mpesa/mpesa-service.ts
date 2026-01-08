@@ -92,7 +92,7 @@ class MpesaService {
 
       // Call Supabase Edge Function
       const response = await fetch(
-        'https://cdvathvyqnnbujssfdwy.supabase.co/functions/v1/mpesa-stk-push',
+        'https://dnsydjeheaiuerrgcuhk.supabase.co/functions/v1/mpesa-stk-push',
         {
           method: 'POST',
           headers: {

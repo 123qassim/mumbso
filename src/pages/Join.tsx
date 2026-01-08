@@ -346,7 +346,6 @@ const Join = () => {
               )}
             </div>
           )}
-          </div>
 
           <div className="mt-12 bg-accent/10 rounded-lg p-6">
             <h3 className="font-bold text-xl mb-4">Member Benefits</h3>

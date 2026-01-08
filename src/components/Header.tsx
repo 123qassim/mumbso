@@ -14,6 +14,7 @@ import mumbsoLogo from "@/assets/mumbso-logo.jpg";
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [expandedSubmenu, setExpandedSubmenu] = useState<string | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
@@ -22,14 +23,29 @@ export const Header = () => {
 
   const navItems = [
     { path: "/", label: "Home" },
-    { path: "/about", label: "About" },
-    { path: "/programs", label: "Programs" },
-    { path: "/research", label: "Research" },
-    { path: "/events", label: "Events" },
+    { 
+      label: "About", 
+      submenu: [
+        { path: "/about", label: "About Us" },
+        { path: "/constitution", label: "Constitution" },
+      ]
+    },
+    { 
+      label: "Programs & Research", 
+      submenu: [
+        { path: "/programs", label: "Programs" },
+        { path: "/research", label: "Research" },
+      ]
+    },
+    { 
+      label: "Updates", 
+      submenu: [
+        { path: "/events", label: "Events" },
+        { path: "/news", label: "News" },
+      ]
+    },
     { path: "/members", label: "Members" },
     { path: "/contribution", label: "Support Us" },
-    { path: "/constitution", label: "Constitution" },
-    { path: "/news", label: "News" },
     { path: "/gallery", label: "Gallery" },
     { path: "/contact", label: "Contact" },
   ];
@@ -48,17 +64,36 @@ export const Header = () => {
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex md:items-center md:gap-3 lg:gap-4">
-          {navItems.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`text-xs lg:text-sm font-medium transition-colors hover:text-primary whitespace-nowrap ${
-                isActive(item.path) ? "text-primary" : "text-foreground/60"
-              }`}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {navItems.map((item) => 
+            'submenu' in item ? (
+              <DropdownMenu key={item.label}>
+                <DropdownMenuTrigger asChild>
+                  <button className="text-xs lg:text-sm font-medium transition-colors hover:text-primary whitespace-nowrap text-foreground/60">
+                    {item.label}
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  {item.submenu.map((subitem) => (
+                    <DropdownMenuItem key={subitem.path} asChild>
+                      <Link to={subitem.path}>
+                        {subitem.label}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`text-xs lg:text-sm font-medium transition-colors hover:text-primary whitespace-nowrap ${
+                  isActive(item.path) ? "text-primary" : "text-foreground/60"
+                }`}
+              >
+                {item.label}
+              </Link>
+            )
+          )}
           <DarkModeToggle />
           <Button variant="hero" size="sm" onClick={() => navigate("/join")} className="whitespace-nowrap">
             Join MUMBSO
@@ -103,18 +138,48 @@ export const Header = () => {
       {isOpen && (
         <div className="md:hidden border-t bg-background p-4">
           <div className="flex flex-col space-y-3">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                onClick={() => setIsOpen(false)}
-                className={`px-3 py-2 text-sm font-medium transition-colors hover:text-primary ${
-                  isActive(item.path) ? "text-primary" : "text-foreground/60"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
+            {navItems.map((item) => 
+              'submenu' in item ? (
+                <div key={item.label}>
+                  <button
+                    onClick={() => setExpandedSubmenu(expandedSubmenu === item.label ? null : item.label)}
+                    className="w-full text-left px-3 py-2 text-sm font-medium transition-colors hover:text-primary text-foreground/60"
+                  >
+                    {item.label}
+                  </button>
+                  {expandedSubmenu === item.label && (
+                    <div className="ml-4 flex flex-col space-y-2">
+                      {item.submenu.map((subitem) => (
+                        <Link
+                          key={subitem.path}
+                          to={subitem.path}
+                          onClick={() => {
+                            setIsOpen(false);
+                            setExpandedSubmenu(null);
+                          }}
+                          className={`px-3 py-2 text-sm font-medium transition-colors hover:text-primary ${
+                            isActive(subitem.path) ? "text-primary" : "text-foreground/60"
+                          }`}
+                        >
+                          {subitem.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setIsOpen(false)}
+                  className={`px-3 py-2 text-sm font-medium transition-colors hover:text-primary ${
+                    isActive(item.path) ? "text-primary" : "text-foreground/60"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
             <div className="flex items-center justify-between px-3 py-2">
               <span className="text-sm font-medium">Theme</span>
               <DarkModeToggle />

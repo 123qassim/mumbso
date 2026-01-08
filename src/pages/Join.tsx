@@ -173,10 +173,7 @@ const Join = () => {
       <section className="py-20 relative overflow-hidden">
         {/* Subtle background pattern */}
         <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0" style={{
-            backgroundImage: 'radial-gradient(circle at 2px 2px, hsl(var(--primary)) 1px, transparent 0)',
-            backgroundSize: '40px 40px'
-          }} />
+          <div className="absolute inset-0 bg-dot-pattern" />
         </div>
         <div className="container max-w-4xl relative z-10">
           {/* Membership Tiers */}

@@ -2,6 +2,10 @@
   command = "bun run build"
   publish = "dist"
 
+# Environment variables required for M-Pesa payment integration
+# VITE_MPESA_CONSUMER_KEY, VITE_MPESA_CONSUMER_SECRET, VITE_MPESA_SHORTCODE,
+# VITE_MPESA_PASSKEY, VITE_MPESA_ENVIRONMENT, VITE_MPESA_CALLBACK_URL
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

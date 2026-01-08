@@ -15,6 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Check, Loader2 } from "lucide-react";
 import joinBg from "@/assets/join-bg.jpg";
 import { SEO } from "@/components/SEO";
+import { MpesaPayment } from "@/components/MpesaPayment";
 
 const Join = () => {
   const { toast } = useToast();
@@ -22,6 +23,9 @@ const Join = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedTier, setSelectedTier] = useState<string | null>(null);
+  const [selectedTierName, setSelectedTierName] = useState<string | null>(null);
+  const [paymentStep, setPaymentStep] = useState<'select' | 'form' | 'payment'>('select');
+  const [selectedTierPrice, setSelectedTierPrice] = useState<number | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -46,7 +50,14 @@ const Join = () => {
     },
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleTierSelect = (tierId: string, tierName: string, price: number) => {
+    setSelectedTier(tierId);
+    setSelectedTierName(tierName);
+    setSelectedTierPrice(price);
+    setPaymentStep('form');
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!user) {
@@ -80,30 +91,59 @@ const Join = () => {
         throw communityError;
       }
 
-      // Create Stripe checkout session
-      const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { tierId: selectedTier },
-      });
-
-      if (error) throw error;
-
-      if (data.url) {
-        window.open(data.url, "_blank");
-        toast({
-          title: "Redirecting to checkout",
-          description: "Complete your payment to activate membership",
-        });
-      }
+      setPaymentStep('payment');
     } catch (error) {
-      console.error("Checkout error:", error);
+      console.error("Form error:", error);
       toast({
         title: "Error",
-        description: "Failed to initiate checkout. Please try again.",
+        description: "Failed to process form. Please try again.",
         variant: "destructive",
       });
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handlePaymentSuccess = async () => {
+    try {
+      // Create membership record
+      const { data: membershipData, error: membershipError } = await supabase
+        .from("memberships")
+        .insert([
+          {
+            user_id: user?.id,
+            tier_id: selectedTier,
+            status: "active",
+            start_date: new Date().toISOString(),
+            end_date: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+            membership_number: `MUMBSO-${Date.now()}`,
+          },
+        ])
+        .select();
+
+      if (membershipError) throw membershipError;
+
+      toast({
+        title: "Welcome to MUMBSO!",
+        description: "Your membership is now active. Welcome aboard!",
+      });
+
+      // Redirect after short delay
+      setTimeout(() => {
+        navigate("/members");
+      }, 2000);
+    } catch (error) {
+      console.error("Membership creation error:", error);
+      toast({
+        title: "Success",
+        description: "Payment received! Your membership is being activated.",
+      });
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await handleFormSubmit(e);
   };
 
   return (
@@ -156,7 +196,7 @@ const Join = () => {
                         ? "ring-2 ring-primary shadow-lg"
                         : "hover:shadow-md"
                     }`}
-                    onClick={() => setSelectedTier(tier.id)}
+                    onClick={() => handleTierSelect(tier.id, tier.name, Number(tier.price))}
                   >
                     <h3 className="text-xl font-bold mb-2">{tier.name}</h3>
                     <div className="text-3xl font-bold mb-4">
@@ -178,15 +218,39 @@ const Join = () => {
                           ))}
                       </ul>
                     )}
+                    <Button className="w-full mt-6" variant={selectedTier === tier.id ? "hero" : "outline"}>
+                      Select Plan
+                    </Button>
                   </Card>
                 ))}
               </div>
             )}
           </div>
 
-          <div className="bg-card rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-bold mb-6">Your Information</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
+          {paymentStep !== 'select' && (
+            <div className="bg-card rounded-lg shadow-lg p-8 mt-8">
+              <h2 className="text-2xl font-bold mb-6">
+                {paymentStep === 'form' ? 'Your Information' : 'Complete Payment'}
+              </h2>
+
+              {paymentStep === 'payment' && selectedTierPrice ? (
+                <div className="space-y-6">
+                  <div className="flex items-center gap-4 mb-6">
+                    <Button variant="outline" onClick={() => setPaymentStep('form')}>
+                      ← Back
+                    </Button>
+                    <p className="text-sm text-muted-foreground">
+                      Plan: <span className="font-semibold">{selectedTierName}</span> - {selectedTierPrice} KES
+                    </p>
+                  </div>
+                  <MpesaPayment
+                    amount={selectedTierPrice}
+                    description={`MUMBSO ${selectedTierName} Membership`}
+                    onPaymentSuccess={handlePaymentSuccess}
+                  />
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <Label htmlFor="name">Full Name *</Label>
                 <Input
@@ -270,7 +334,7 @@ const Join = () => {
                     Processing...
                   </>
                 ) : (
-                  "Proceed to Payment"
+                  "Continue to Payment"
                 )}
               </Button>
               {!user && (
@@ -278,7 +342,10 @@ const Join = () => {
                   You'll be redirected to log in before payment
                 </p>
               )}
-            </form>
+                </form>
+              )}
+            </div>
+          )}
           </div>
 
           <div className="mt-12 bg-accent/10 rounded-lg p-6">

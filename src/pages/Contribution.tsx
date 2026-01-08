@@ -246,8 +246,13 @@ const Contribution = () => {
                           </li>
                         ))}
                       </ul>
-                      <Button variant={tier.highlight ? "hero" : "outline"} className="w-full" size="lg">
-                        Choose {tier.name}
+                      <Button 
+                        variant={tier.highlight ? "hero" : "outline"} 
+                        className="w-full" 
+                        size="lg"
+                        onClick={() => setSelectedTierForPayment(tier.name)}
+                      >
+                        Pay Now
                       </Button>
                     </CardContent>
                   </Card>

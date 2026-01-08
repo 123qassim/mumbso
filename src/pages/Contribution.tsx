@@ -5,8 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building2, Copy, Stethoscope, Users, Heart, Briefcase, BookOpen, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { MpesaPayment } from "@/components/MpesaPayment";
+import { useState } from "react";
 
 const Contribution = () => {
+  const [selectedTierForPayment, setSelectedTierForPayment] = useState<string | null>(null);
+
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied to clipboard!`);
@@ -314,6 +318,83 @@ const Contribution = () => {
                     after making a donation so we can acknowledge your contribution and provide a receipt.
                   </p>
                 </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* M-Pesa Payment Section */}
+        <section className="py-20">
+          <div className="container max-w-4xl">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold tracking-tight mb-4">Pay via M-Pesa</h2>
+              <p className="text-lg text-muted-foreground">
+                Quick and secure payment using M-Pesa STK Push
+              </p>
+            </div>
+
+            {!selectedTierForPayment ? (
+              <div className="grid md:grid-cols-3 gap-6 mb-12">
+                {donationTiers.map((tier, idx) => (
+                  <Card key={idx} className="hover:shadow-card transition-all cursor-pointer" onClick={() => setSelectedTierForPayment(tier.name)}>
+                    <CardHeader>
+                      <CardTitle className="text-center">{tier.name}</CardTitle>
+                      <div className="text-2xl font-bold text-primary text-center mt-4">
+                        {tier.amount.replace(' KES', '')} KES
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <Button className="w-full" variant="outline">
+                        Pay Now
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-6">
+                <div className="flex items-center gap-4 mb-6">
+                  <Button variant="outline" onClick={() => setSelectedTierForPayment(null)}>
+                    ← Back
+                  </Button>
+                  <p className="text-sm text-muted-foreground">
+                    Selected: <span className="font-semibold">{selectedTierForPayment}</span>
+                  </p>
+                </div>
+                
+                {selectedTierForPayment && donationTiers.find(t => t.name === selectedTierForPayment) && (
+                  <MpesaPayment
+                    amount={parseInt(donationTiers.find(t => t.name === selectedTierForPayment)?.amount || '0')}
+                    description={`${selectedTierForPayment} Support for MUMBSO`}
+                    onPaymentSuccess={() => {
+                      toast.success('Thank you for your support!');
+                      setSelectedTierForPayment(null);
+                    }}
+                  />
+                )}
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* Bank Transfer Section */}
+        <section className="py-20 bg-muted/30">
+          <div className="container max-w-4xl">
+            <Card className="border-2 border-primary/20">
+              <CardHeader className="text-center">
+                <CardTitle className="text-2xl">Bank Transfer (Alternative)</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="bg-muted/50 p-6 rounded-lg space-y-4">
+                  <div className="flex items-center justify-between border-b border-border pb-4">
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-1">Bank Name</p>
+                      <p className="text-lg font-semibold">Kenya Commercial Bank (KCB)</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between border-b border-border pb-4">
+                    <div className="flex-1">
               </CardContent>
             </Card>
           </div>

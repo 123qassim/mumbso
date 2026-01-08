@@ -42,7 +42,6 @@ const Join = () => {
       const { data, error } = await supabase
         .from("membership_tiers")
         .select("*")
-        .eq("active", true)
         .order("price", { ascending: true });
       
       if (error) throw error;

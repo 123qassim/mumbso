@@ -73,7 +73,7 @@ class MpesaService {
    */
   private generatePassword(timestamp: string): string {
     const data = `${this.shortcode}${this.passkey}${timestamp}`;
-    return Buffer.from(data).toString('base64');
+    return btoa(data);
   }
 
   /**
@@ -81,77 +81,43 @@ class MpesaService {
    */
   async initiateSTKPush(request: STKPushRequest): Promise<PaymentResponse> {
     try {
-      // Validate phone number (must be 254xxxxxxxxx format)
-      let phoneNumber = request.phoneNumber.replace(/^0/, '254');
-      if (!phoneNumber.startsWith('254')) {
-        phoneNumber = '254' + phoneNumber;
+      // Validate phone number
+      if (!request.phoneNumber || request.phoneNumber.length < 9) {
+        return {
+          success: false,
+          message: 'Invalid phone number',
+          errorMessage: 'Please provide a valid phone number',
+        };
       }
 
-      // Get access token
-      const accessToken = await this.getAccessToken();
-      const timestamp = this.getTimestamp();
-      const password = this.generatePassword(timestamp);
-
-      // Prepare STK Push payload
-      const payload = {
-        BusinessShortCode: this.shortcode,
-        Password: password,
-        Timestamp: timestamp,
-        TransactionType: 'CustomerPayBillOnline',
-        Amount: Math.round(request.amount),
-        PartyA: phoneNumber,
-        PartyB: this.shortcode,
-        PhoneNumber: phoneNumber,
-        CallBackURL: this.callbackUrl,
-        AccountReference: request.accountReference,
-        TransactionDesc: request.transactionDesc,
-      };
-
-      // Call M-Pesa API
-      const response = await fetch(MPESA_STK_URL, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await response.json() as {
-        ResponseCode?: string;
-        CheckoutRequestID?: string;
-        ResponseDescription?: string;
-        CustomerMessage?: string;
-      };
-
-      if (data.ResponseCode === '0') {
-        // Payment initiated successfully - save to database
-        await supabase.from('payments').insert({
-          checkout_request_id: data.CheckoutRequestID,
-          phone_number: phoneNumber,
-          amount: request.amount,
-          account_reference: request.accountReference,
-          transaction_description: request.transactionDesc,
-          payment_status: 'pending',
-          payment_method: 'mpesa',
-          metadata: {
-            requestPayload: payload,
-            initiatedAt: new Date().toISOString(),
+      // Call Supabase Edge Function
+      const response = await fetch(
+        'https://cdvathvyqnnbujssfdwy.supabase.co/functions/v1/mpesa-stk-push',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        });
+          body: JSON.stringify(request),
+        }
+      );
 
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error('STK Push error:', data);
         return {
-          success: true,
-          message: 'Payment prompt sent to your phone',
-          checkoutRequestId: data.CheckoutRequestID,
-          responseCode: data.ResponseCode,
+          success: false,
+          message: data.error || 'Failed to initiate payment',
+          errorMessage: data.error || 'Failed to initiate STK Push',
         };
       }
 
       return {
-        success: false,
-        message: data.CustomerMessage || 'Failed to initiate payment',
-        errorMessage: data.ResponseDescription,
+        success: true,
+        message: 'Payment prompt sent to your phone',
+        checkoutRequestId: data.checkoutRequestId,
+        responseCode: '0',
       };
     } catch (error) {
       console.error('Error initiating STK Push:', error);

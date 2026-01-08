@@ -33,7 +33,7 @@ class MpesaService {
    */
   async getAccessToken(): Promise<string> {
     try {
-      const auth = Buffer.from(`${this.consumerKey}:${this.consumerSecret}`).toString('base64');
+      const auth = btoa(`${this.consumerKey}:${this.consumerSecret}`);
       
       const response = await fetch(MPESA_AUTH_URL, {
         method: 'GET',

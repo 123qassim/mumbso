@@ -2,6 +2,11 @@
   command = "npm run build"
   publish = "dist"
 
+# Disable secrets scanning for VITE_ public environment variables
+[build.environment]
+  SECRETS_SCAN_OMIT_KEYS = "VITE_MPESA_CALLBACK_URL,VITE_MPESA_CONSUMER_KEY,VITE_MPESA_CONSUMER_SECRET,VITE_MPESA_ENVIRONMENT,VITE_MPESA_PASSKEY,VITE_MPESA_SHORTCODE,VITE_SUPABASE_URL"
+  SECRETS_SCAN_OMIT_PATHS = ".env.example"
+
 # Environment variables required for M-Pesa payment integration
 # VITE_MPESA_CONSUMER_KEY, VITE_MPESA_CONSUMER_SECRET, VITE_MPESA_SHORTCODE,
 # VITE_MPESA_PASSKEY, VITE_MPESA_ENVIRONMENT, VITE_MPESA_CALLBACK_URL

@@ -359,7 +359,6 @@ const Join = () => {
               <li>✓ Access to biotechnology resources and journals</li>
             </ul>
           </div>
-        </div>
       </section>
       <Footer />
     </div>

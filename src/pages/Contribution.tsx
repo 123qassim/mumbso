@@ -399,7 +399,25 @@ const Contribution = () => {
                   </div>
 
                   <div className="flex items-center justify-between border-b border-border pb-4">
-                    <div className="flex-1">
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-1">Account Number</p>
+                      <p className="text-lg font-semibold">1234567890</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between border-b border-border pb-4">
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-1">Branch Code</p>
+                      <p className="text-lg font-semibold">KCB Main Branch</p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">Reference</p>
+                    <p className="text-lg font-semibold">Your Full Name or Membership ID</p>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground mt-4">Please include your reference when making the transfer so we can identify your payment.</p>
               </CardContent>
             </Card>
           </div>

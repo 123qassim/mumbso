@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { supabase } from '../supabase/client';
 
 const MPESA_AUTH_URL = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
 const MPESA_STK_URL = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';

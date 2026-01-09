@@ -11,7 +11,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 import { Check, Loader2 } from "lucide-react";
 import joinBg from "@/assets/join-bg.jpg";
 import { SEO } from "@/components/SEO";
@@ -35,19 +34,13 @@ const Join = () => {
     interests: "",
   });
 
-  // Fetch membership tiers
-  const { data: tiers, isLoading: tiersLoading } = useQuery({
-    queryKey: ["membership-tiers"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("membership_tiers")
-        .select("*")
-        .order("price", { ascending: true });
-      
-      if (error) throw error;
-      return data;
-    },
-  });
+  // Hardcoded membership tiers (will fetch from DB once auth is fixed)
+  const tiers = [
+    { id: "1", name: "Student", description: "Student membership tier", price: 100, benefits: ["Access to events", "Monthly newsletter"] },
+    { id: "2", name: "Professional", description: "Professional membership tier", price: 2500, benefits: ["All student benefits", "Access to research", "Job board"] },
+    { id: "3", name: "Partner", description: "Partner membership tier", price: 10000, benefits: ["All professional benefits", "Speaking opportunities", "Co-brand opportunities"] }
+  ];
+  const tiersLoading = false;
 
   const handleTierSelect = (tierId: string, tierName: string, price: number) => {
     setSelectedTier(tierId);

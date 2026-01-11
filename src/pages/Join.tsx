@@ -34,11 +34,50 @@ const Join = () => {
     interests: "",
   });
 
-  // Hardcoded membership tiers (will fetch from DB once auth is fixed)
+  // Hardcoded membership tiers (actual MUMBSO tiers)
   const tiers = [
-    { id: "1", name: "Student", description: "Student membership tier", price: 100, benefits: ["Access to events", "Monthly newsletter"] },
-    { id: "2", name: "Professional", description: "Professional membership tier", price: 2500, benefits: ["All student benefits", "Access to research", "Job board"] },
-    { id: "3", name: "Partner", description: "Partner membership tier", price: 10000, benefits: ["All professional benefits", "Speaking opportunities", "Co-brand opportunities"] }
+    { 
+      id: "bd242208-ca3b-40d0-9642-5531cbd106cd", 
+      name: "Student (Annual)", 
+      description: "Full access to all MUMBSO events and resources", 
+      price: 200, 
+      benefits: ["Events", "Networking", "Resources", "Workshops"] 
+    },
+    { 
+      id: "492ceb62-7173-4c9a-b755-0b2690aaeb98", 
+      name: "Student (Semester)", 
+      description: "Student membership - Semester payment", 
+      price: 100, 
+      benefits: ["Events", "Networking", "Resources", "Workshops"] 
+    },
+    { 
+      id: "65b9e2e1-a213-4a12-8708-94d4788995f8", 
+      name: "Alumni (Annual)", 
+      description: "Premium membership for alumni and professionals", 
+      price: 500, 
+      benefits: ["Events", "Mentorship", "Networking", "Priority Access", "Resources", "Workshops"] 
+    },
+    { 
+      id: "6c17eb59-ca95-45a8-a2fe-1258458e1278", 
+      name: "Alumni (Semester)", 
+      description: "Alumni membership - Semester payment", 
+      price: 250, 
+      benefits: ["Events", "Mentorship", "Networking", "Priority Access", "Resources", "Workshops"] 
+    },
+    { 
+      id: "7518fe0e-fff9-444d-ab93-61223db81349", 
+      name: "Institutional (Annual)", 
+      description: "Partnership membership for organizations", 
+      price: 5000, 
+      benefits: ["Branding", "Events", "Mentorship", "Networking", "Priority Access", "Resources", "Sponsorship", "Workshops"] 
+    },
+    { 
+      id: "e1921303-02c5-4879-bdfb-226a31be1082", 
+      name: "Institutional (Semester)", 
+      description: "Institutional partnership - Semester payment", 
+      price: 2500, 
+      benefits: ["Branding", "Events", "Mentorship", "Networking", "Priority Access", "Resources", "Sponsorship", "Workshops"] 
+    }
   ];
   const tiersLoading = false;
 

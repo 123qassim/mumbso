@@ -94,7 +94,7 @@ const Join = () => {
     if (!user) {
       toast({
         title: "Please log in",
-        description: "You need to be logged in to join as a paid member",
+        description: "You need to be logged in to join",
         variant: "destructive",
       });
       navigate("/auth");
@@ -113,7 +113,7 @@ const Join = () => {
     setIsLoading(true);
 
     try {
-      // First add to community members
+      // Add to community members
       const { error: communityError } = await supabase
         .from("community_members")
         .insert([{ ...formData, email: user.email }]);
@@ -122,12 +122,36 @@ const Join = () => {
         throw communityError;
       }
 
-      setPaymentStep('payment');
+      // Skip payment - directly create membership record
+      const { error: membershipError } = await supabase
+        .from("memberships")
+        .insert([
+          {
+            user_id: user?.id,
+            tier_id: selectedTier,
+            status: "active",
+            start_date: new Date().toISOString(),
+            end_date: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+            membership_number: `MUMBSO-${Date.now()}`,
+          },
+        ]);
+
+      if (membershipError) throw membershipError;
+
+      toast({
+        title: "Success!",
+        description: "You have successfully joined MUMBSO!",
+        variant: "default",
+      });
+
+      setTimeout(() => {
+        navigate("/members");
+      }, 2000);
     } catch (error) {
       console.error("Form error:", error);
       toast({
         title: "Error",
-        description: "Failed to process form. Please try again.",
+        description: "Failed to process registration. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -263,19 +287,10 @@ const Join = () => {
 
               {paymentStep === 'payment' && selectedTierPrice ? (
                 <div className="space-y-6">
-                  <div className="flex items-center gap-4 mb-6">
-                    <Button variant="outline" onClick={() => setPaymentStep('form')}>
-                      ← Back
-                    </Button>
-                    <p className="text-sm text-muted-foreground">
-                      Plan: <span className="font-semibold">{selectedTierName}</span> - {selectedTierPrice} KES
-                    </p>
-                  </div>
-                  <MpesaPayment
-                    amount={selectedTierPrice}
-                    description={`MUMBSO ${selectedTierName} Membership`}
-                    onPaymentSuccess={handlePaymentSuccess}
-                  />
+                  <p className="text-muted-foreground">
+                    Plan: <span className="font-semibold">{selectedTierName}</span> - {selectedTierPrice} KES
+                  </p>
+                  <p className="text-sm">Payment processing is temporarily disabled. You have been registered for this membership tier.</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">

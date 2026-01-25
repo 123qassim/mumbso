@@ -21,10 +21,6 @@ const Join = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedTier, setSelectedTier] = useState<string | null>(null);
-  const [selectedTierName, setSelectedTierName] = useState<string | null>(null);
-  const [paymentStep, setPaymentStep] = useState<'select' | 'form' | 'payment'>('select');
-  const [selectedTierPrice, setSelectedTierPrice] = useState<number | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -34,109 +30,27 @@ const Join = () => {
     interests: "",
   });
 
-  // Hardcoded membership tiers (actual MUMBSO tiers)
-  const tiers = [
-    { 
-      id: "bd242208-ca3b-40d0-9642-5531cbd106cd", 
-      name: "Student (Annual)", 
-      description: "Full access to all MUMBSO events and resources", 
-      price: 200, 
-      benefits: ["Events", "Networking", "Resources", "Workshops"] 
-    },
-    { 
-      id: "492ceb62-7173-4c9a-b755-0b2690aaeb98", 
-      name: "Student (Semester)", 
-      description: "Student membership - Semester payment", 
-      price: 100, 
-      benefits: ["Events", "Networking", "Resources", "Workshops"] 
-    },
-    { 
-      id: "65b9e2e1-a213-4a12-8708-94d4788995f8", 
-      name: "Alumni (Annual)", 
-      description: "Premium membership for alumni and professionals", 
-      price: 500, 
-      benefits: ["Events", "Mentorship", "Networking", "Priority Access", "Resources", "Workshops"] 
-    },
-    { 
-      id: "6c17eb59-ca95-45a8-a2fe-1258458e1278", 
-      name: "Alumni (Semester)", 
-      description: "Alumni membership - Semester payment", 
-      price: 250, 
-      benefits: ["Events", "Mentorship", "Networking", "Priority Access", "Resources", "Workshops"] 
-    },
-    { 
-      id: "7518fe0e-fff9-444d-ab93-61223db81349", 
-      name: "Institutional (Annual)", 
-      description: "Partnership membership for organizations", 
-      price: 5000, 
-      benefits: ["Branding", "Events", "Mentorship", "Networking", "Priority Access", "Resources", "Sponsorship", "Workshops"] 
-    },
-    { 
-      id: "e1921303-02c5-4879-bdfb-226a31be1082", 
-      name: "Institutional (Semester)", 
-      description: "Institutional partnership - Semester payment", 
-      price: 2500, 
-      benefits: ["Branding", "Events", "Mentorship", "Networking", "Priority Access", "Resources", "Sponsorship", "Workshops"] 
-    }
-  ];
+  // Hardcoded membership tiers (no longer used - free signup only)
+  const tiers = [];
   const tiersLoading = false;
-
-  const handleTierSelect = (tierId: string, tierName: string, price: number) => {
-    setSelectedTier(tierId);
-    setSelectedTierName(tierName);
-    setSelectedTierPrice(price);
-    setPaymentStep('form');
-  };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!user) {
-      toast({
-        title: "Please log in",
-        description: "You need to be logged in to join",
-        variant: "destructive",
-      });
-      navigate("/auth");
-      return;
-    }
-
-    if (!selectedTier) {
-      toast({
-        title: "Select a membership tier",
-        description: "Please choose a membership tier to continue",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setIsLoading(true);
 
     try {
-      // Add to community members
+      // Just add to community members (free signup, no tier selection needed)
       const { error: communityError } = await supabase
         .from("community_members")
-        .insert([{ ...formData, email: user.email }]);
+        .insert([{ 
+          ...formData, 
+          email: user?.email || formData.email 
+        }]);
 
       if (communityError && communityError.code !== "23505") {
         throw communityError;
       }
-
-      // Skip payment - directly create membership record
-      const { error: membershipError } = await supabase
-        .from("memberships")
-        .insert([
-          {
-            user_id: user?.id,
-            tier_id: selectedTier,
-            status: "active",
-            start_date: new Date().toISOString(),
-            end_date: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
-            membership_number: `MUMBSO-${Date.now()}`,
-          },
-        ]);
-
-      if (membershipError) throw membershipError;
 
       toast({
         title: "Success!",
@@ -231,69 +145,13 @@ const Join = () => {
           <div className="absolute inset-0 bg-dot-pattern" />
         </div>
         <div className="container max-w-4xl relative z-10">
-          {/* Membership Tiers */}
-          <div className="mb-12">
-            <h2 className="text-2xl font-bold mb-6 text-center">Choose Your Membership</h2>
-            {tiersLoading ? (
-              <div className="flex justify-center py-8">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-              </div>
-            ) : (
-              <div className="grid md:grid-cols-3 gap-6">
-                {tiers?.map((tier) => (
-                  <Card
-                    key={tier.id}
-                    className={`p-6 cursor-pointer transition-all ${
-                      selectedTier === tier.id
-                        ? "ring-2 ring-primary shadow-lg"
-                        : "hover:shadow-md"
-                    }`}
-                    onClick={() => handleTierSelect(tier.id, tier.name, Number(tier.price))}
-                  >
-                    <h3 className="text-xl font-bold mb-2">{tier.name}</h3>
-                    <div className="text-3xl font-bold mb-4">
-                      KES {Number(tier.price).toLocaleString()}
-                      <span className="text-sm text-muted-foreground font-normal">
-                        /{tier.duration_months} months
-                      </span>
-                    </div>
-                    <p className="text-muted-foreground mb-4">{tier.description}</p>
-                    {tier.benefits && typeof tier.benefits === 'object' && (
-                      <ul className="space-y-2">
-                        {Object.entries(tier.benefits as Record<string, boolean>)
-                          .filter(([_, value]) => value)
-                          .map(([key, _], idx) => (
-                            <li key={idx} className="flex items-start gap-2 text-sm">
-                              <Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                              <span className="capitalize">{key.replace(/_/g, ' ')}</span>
-                            </li>
-                          ))}
-                      </ul>
-                    )}
-                    <Button className="w-full mt-6" variant={selectedTier === tier.id ? "hero" : "outline"}>
-                      Select Plan
-                    </Button>
-                  </Card>
-                ))}
-              </div>
-            )}
-          </div>
+          {/* Registration Form - No tier selection, just free signup */}
+          <div className="bg-card rounded-lg shadow-lg p-8">
+            <h2 className="text-2xl font-bold mb-6">
+              Join MUMBSO - Free Membership
+            </h2>
 
-          {paymentStep !== 'select' && (
-            <div className="bg-card rounded-lg shadow-lg p-8 mt-8">
-              <h2 className="text-2xl font-bold mb-6">
-                {paymentStep === 'form' ? 'Your Information' : 'Complete Payment'}
-              </h2>
-
-              {paymentStep === 'payment' && selectedTierPrice ? (
-                <div className="space-y-6">
-                  <p className="text-muted-foreground">
-                    Plan: <span className="font-semibold">{selectedTierName}</span> - {selectedTierPrice} KES
-                  </p>
-                  <p className="text-sm">Payment processing is temporarily disabled. You have been registered for this membership tier.</p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <Label htmlFor="name">Full Name *</Label>
                 <Input
@@ -382,13 +240,10 @@ const Join = () => {
               </Button>
               {!user && (
                 <p className="text-sm text-center text-muted-foreground">
-                  You'll be redirected to log in before payment
+                  You'll be redirected to log in first
                 </p>
               )}
-                </form>
-              )}
-            </div>
-          )}
+            </form>
 
           <div className="mt-12 bg-accent/10 rounded-lg p-6">
             <h3 className="font-bold text-xl mb-4">Member Benefits</h3>

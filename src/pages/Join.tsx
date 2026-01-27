@@ -200,16 +200,17 @@ const Join = () => {
               </Button>
             </form>
 
-          <div className="mt-12 bg-accent/10 rounded-lg p-6">
-            <h3 className="font-bold text-xl mb-4">Member Benefits</h3>
-            <ul className="space-y-2 text-muted-foreground">
-              <li>✓ Access to exclusive workshops and training sessions</li>
-              <li>✓ Networking opportunities with industry professionals</li>
-              <li>✓ Participation in research projects and conferences</li>
-              <li>✓ Career development and mentorship programs</li>
-              <li>✓ Community service and outreach activities</li>
-              <li>✓ Access to biotechnology resources and journals</li>
-            </ul>
+            <div className="mt-12 bg-accent/10 rounded-lg p-6">
+              <h3 className="font-bold text-xl mb-4">Member Benefits</h3>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>✓ Access to exclusive workshops and training sessions</li>
+                <li>✓ Networking opportunities with industry professionals</li>
+                <li>✓ Participation in research projects and conferences</li>
+                <li>✓ Career development and mentorship programs</li>
+                <li>✓ Community service and outreach activities</li>
+                <li>✓ Access to biotechnology resources and journals</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>

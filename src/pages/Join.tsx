@@ -70,43 +70,6 @@ const Join = () => {
     }
   };
 
-  const handlePaymentSuccess = async () => {
-    try {
-      // Create membership record
-      const { data: membershipData, error: membershipError } = await supabase
-        .from("memberships")
-        .insert([
-          {
-            user_id: user?.id,
-            tier_id: selectedTier,
-            status: "active",
-            start_date: new Date().toISOString(),
-            end_date: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
-            membership_number: `MUMBSO-${Date.now()}`,
-          },
-        ])
-        .select();
-
-      if (membershipError) throw membershipError;
-
-      toast({
-        title: "Welcome to MUMBSO!",
-        description: "Your membership is now active. Welcome aboard!",
-      });
-
-      // Redirect after short delay
-      setTimeout(() => {
-        navigate("/members");
-      }, 2000);
-    } catch (error) {
-      console.error("Membership creation error:", error);
-      toast({
-        title: "Success",
-        description: "Payment received! Your membership is being activated.",
-      });
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await handleFormSubmit(e);
@@ -225,21 +188,16 @@ const Join = () => {
                 />
               </div>
 
-              <Button type="submit" disabled={isLoading || !selectedTier} className="w-full">
+              <Button type="submit" disabled={isLoading} className="w-full">
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Processing...
                   </>
                 ) : (
-                  "Continue to Payment"
+                  "Sign Up"
                 )}
               </Button>
-              {!user && (
-                <p className="text-sm text-center text-muted-foreground">
-                  You'll be redirected to log in first
-                </p>
-              )}
             </form>
 
           <div className="mt-12 bg-accent/10 rounded-lg p-6">

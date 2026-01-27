@@ -9,7 +9,6 @@ import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect } from "react";
-import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { Check, Loader2 } from "lucide-react";
 import joinBg from "@/assets/join-bg.jpg";
@@ -18,7 +17,6 @@ import { MpesaPayment } from "@/components/MpesaPayment";
 
 const Join = () => {
   const { toast } = useToast();
-  const { user } = useAuth();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -44,8 +42,7 @@ const Join = () => {
       const { error: communityError } = await supabase
         .from("community_members")
         .insert([{ 
-          ...formData, 
-          email: user?.email || formData.email 
+          ...formData
         }]);
 
       if (communityError && communityError.code !== "23505") {

@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 // Leadership team data
 const LEADERSHIP_DATA = [
-  { id: "1", name: "Prof. Ouma Collins", position: "Patron", bio: "Leading our vision in medical biotechnology education", display_order: 1, image_url: null },
+  { id: "1", name: "Prof. Collins Ouma", position: "Patron", bio: "Leading our vision in medical biotechnology education", display_order: 1, image_url: null },
   { id: "2", name: "Christopher Olila", position: "Chair", bio: "Driving organizational strategy and member engagement", display_order: 2, image_url: null },
   { id: "3", name: "June Siata", position: "Vice Chair", bio: "Supporting initiatives and event coordination", display_order: 3, image_url: null },
   { id: "4", name: "Edward Kireu", position: "Secretary General", bio: "Managing communications and documentation", display_order: 4, image_url: null },
@@ -26,6 +26,7 @@ const LEADERSHIP_DATA = [
   { id: "10", name: "Year 2 Representative", position: "Year 2 Representative", bio: "Voice of second year students in organizational decisions", display_order: 10, image_url: null },
   { id: "11", name: "Year 3 Representative", position: "Year 3 Representative", bio: "Voice of third year students in organizational decisions", display_order: 11, image_url: null },
   { id: "12", name: "Year 4 Representative", position: "Year 4 Representative", bio: "Voice of fourth year students in organizational decisions", display_order: 12, image_url: null },
+  { id: "13", name: "Task Force Committee", position: "Task Force Committee", bio: "Roles only, no individual names", display_order: 13, image_url: null },
 ];
 
 const Members = () => {

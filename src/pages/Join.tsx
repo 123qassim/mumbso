@@ -5,15 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Check, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import joinBg from "@/assets/join-bg.jpg";
 import { SEO } from "@/components/SEO";
-import { MpesaPayment } from "@/components/MpesaPayment";
 
 const Join = () => {
   const { toast } = useToast();
@@ -27,6 +25,10 @@ const Join = () => {
     course: "",
     interests: "",
   });
+
+  // Hardcoded membership tiers (no longer used - free signup only)
+  const tiers = [];
+  const tiersLoading = false;
 
   // Hardcoded membership tiers (no longer used - free signup only)
   const tiers = [];
@@ -70,11 +72,6 @@ const Join = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await handleFormSubmit(e);
-  };
-
   return (
     <div className="min-h-screen bg-background">
       <SEO 
@@ -116,7 +113,7 @@ const Join = () => {
                 <Label htmlFor="name">Full Name *</Label>
                 <Input
                   id="name"
-                  value={formData.name}
+                  value={formData.Formname}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
                   placeholder="John Doe"
@@ -156,7 +153,6 @@ const Join = () => {
                   <SelectTrigger>
                     <SelectValue placeholder="Select your year" />
                   </SelectTrigger>
-                  <SelectContent>
                     <SelectItem value="Year 1">Year 1</SelectItem>
                     <SelectItem value="Year 2">Year 2</SelectItem>
                     <SelectItem value="Year 3">Year 3</SelectItem>

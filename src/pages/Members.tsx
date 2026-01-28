@@ -35,7 +35,7 @@ interface CommunityMember {
 // Leadership team data - organized by hierarchy
 const LEADERSHIP_DATA = [
   // Patron
-  { id: "1", name: "Prof. Ouma Collins", position: "Patron", bio: "Leading our vision in medical biotechnology education", display_order: 1, image_url: null },
+  { id: "1", name: "Dr. Collins Ouma", position: "Faculty Advisor", bio: "Faculty Advisor for MUMBSO", display_order: 1, image_url: null },
   
   // Executive Committee
   { id: "2", name: "Christopher Olila", position: "Chair", bio: "Driving organizational strategy and member engagement", display_order: 2, image_url: null },
@@ -52,8 +52,11 @@ const LEADERSHIP_DATA = [
   { id: "11", name: "", position: "Year 3 Representative", bio: "Voice of third year students in organizational decisions", display_order: 11, image_url: null },
   { id: "12", name: "", position: "Year 4 Representative", bio: "Voice of fourth year students in organizational decisions", display_order: 12, image_url: null },
   
-  // Task Force Committee (role only, no individual names)
-  { id: "13", name: "", position: "Task Force Committee", bio: "Cross-functional team supporting organizational initiatives", display_order: 13, image_url: null },
+  // Task Force Committees
+  { id: "13", name: "", position: "Research Committee", bio: "Specialized committees dedicated to driving MUMBSO's core initiatives", display_order: 13, image_url: null },
+  { id: "14", name: "", position: "Outreach Committee", bio: "Specialized committees dedicated to driving MUMBSO's core initiatives", display_order: 14, image_url: null },
+  { id: "15", name: "", position: "Education Committee", bio: "Specialized committees dedicated to driving MUMBSO's core initiatives", display_order: 15, image_url: null },
+  { id: "16", name: "", position: "Events Committee", bio: "Specialized committees dedicated to driving MUMBSO's core initiatives", display_order: 16, image_url: null },
 ];
 
 const Members = () => {
@@ -192,15 +195,20 @@ const Members = () => {
 
           {/* Task Force Committee Section */}
           <div>
-            <div className="grid gap-6 justify-center">
-              {leadership?.filter((m: LeadershipMember) => m.position === 'Task Force Committee')?.map((m: LeadershipMember) => (
-                <Card key={m.id} className="max-w-md bg-accent/10">
+            <div className="text-center mb-6">
+              <h3 className="text-2xl font-bold">Task Force Committees</h3>
+              <p className="text-muted-foreground">Specialized committees dedicated to driving MUMBSO's core initiatives.</p>
+            </div>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 justify-center">
+              {leadership?.filter((m: LeadershipMember) => m.display_order >= 13)?.map((m: LeadershipMember) => (
+                <Card key={m.id} className="bg-accent/10">
                   <CardContent className="p-8 text-center">
                     <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-secondary to-secondary/50 rounded-full flex items-center justify-center">
                       <Users className="w-10 h-10 text-white" />
                     </div>
-                    <p className="text-lg font-semibold mb-2">{m.position}</p>
-                    <p className="text-muted-foreground text-sm">{m.bio}</p>
+                    <p className="text-base font-semibold mb-2">{m.position}</p>
+                    {m.name && <p className="text-sm text-muted-foreground">{m.name}</p>}
+                    {m.bio && <p className="text-xs text-muted-foreground mt-2">{m.bio}</p>}
                   </CardContent>
                 </Card>
               ))}

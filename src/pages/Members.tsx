@@ -32,9 +32,12 @@ interface CommunityMember {
   joined_at?: string;
 }
 
-// Leadership team data
+// Leadership team data - organized by hierarchy
 const LEADERSHIP_DATA = [
-  { id: "1", name: "Prof. Collins Ouma", position: "Patron", bio: "Leading our vision in medical biotechnology education", display_order: 1, image_url: null },
+  // Patron
+  { id: "1", name: "Prof. Ouma Collins", position: "Patron", bio: "Leading our vision in medical biotechnology education", display_order: 1, image_url: null },
+  
+  // Executive Committee
   { id: "2", name: "Christopher Olila", position: "Chair", bio: "Driving organizational strategy and member engagement", display_order: 2, image_url: null },
   { id: "3", name: "June Siata", position: "Vice Chair", bio: "Supporting initiatives and event coordination", display_order: 3, image_url: null },
   { id: "4", name: "Edward Kireu", position: "Secretary General", bio: "Managing communications and documentation", display_order: 4, image_url: null },
@@ -42,11 +45,15 @@ const LEADERSHIP_DATA = [
   { id: "6", name: "Festus Kiptoo", position: "Organizing Secretary", bio: "Coordinating events and member activities", display_order: 6, image_url: null },
   { id: "7", name: "Alice Odero", position: "Secretary", bio: "Administrative support and member services", display_order: 7, image_url: null },
   { id: "8", name: "Edwin Ogutu", position: "Treasurer", bio: "Managing finances and resource allocation", display_order: 8, image_url: null },
-  { id: "9", name: "Year 1 Representative", position: "Year 1 Representative", bio: "Voice of first year students in organizational decisions", display_order: 9, image_url: null },
-  { id: "10", name: "Year 2 Representative", position: "Year 2 Representative", bio: "Voice of second year students in organizational decisions", display_order: 10, image_url: null },
-  { id: "11", name: "Year 3 Representative", position: "Year 3 Representative", bio: "Voice of third year students in organizational decisions", display_order: 11, image_url: null },
-  { id: "12", name: "Year 4 Representative", position: "Year 4 Representative", bio: "Voice of fourth year students in organizational decisions", display_order: 12, image_url: null },
-  { id: "13", name: "Task Force Committee", position: "Task Force Committee", bio: "Roles only, no individual names", display_order: 13, image_url: null },
+  
+  // Year Representatives (no individual names)
+  { id: "9", name: "", position: "Year 1 Representative", bio: "Voice of first year students in organizational decisions", display_order: 9, image_url: null },
+  { id: "10", name: "", position: "Year 2 Representative", bio: "Voice of second year students in organizational decisions", display_order: 10, image_url: null },
+  { id: "11", name: "", position: "Year 3 Representative", bio: "Voice of third year students in organizational decisions", display_order: 11, image_url: null },
+  { id: "12", name: "", position: "Year 4 Representative", bio: "Voice of fourth year students in organizational decisions", display_order: 12, image_url: null },
+  
+  // Task Force Committee (role only, no individual names)
+  { id: "13", name: "", position: "Task Force Committee", bio: "Cross-functional team supporting organizational initiatives", display_order: 13, image_url: null },
 ];
 
 const Members = () => {
@@ -105,28 +112,99 @@ const Members = () => {
       {/* Leadership Section */}
       <section className="py-20">
         <div className="container">
-          <h2 className="text-3xl font-bold mb-8 text-center">Leadership Team</h2>
-          <div className="grid gap-6 md:grid-cols-3">
-            {leadership?.map((m: LeadershipMember) => (
-              <Card key={m.id}>
-                <CardContent className="p-6 text-center">
-                  <div className="w-24 h-24 mx-auto mb-4 bg-gradient-hero rounded-full flex items-center justify-center text-white text-2xl font-bold overflow-hidden">
-                    {m.image_url ? (
-                      <img 
-                        src={m.name.toLowerCase().includes('olila') ? olilaProfile : m.image_url} 
-                        alt={m.name}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      m.name.charAt(0)
+          <h2 className="text-3xl font-bold mb-12 text-center">Leadership Team</h2>
+          
+          {/* Patron Section */}
+          <div className="mb-16">
+            <div className="grid gap-6 justify-center mb-8">
+              {leadership?.filter((m: LeadershipMember) => m.position === 'Patron')?.map((m: LeadershipMember) => (
+                <Card key={m.id} className="max-w-md border-2 border-primary/50 bg-primary/5">
+                  <CardContent className="p-8 text-center">
+                    {m.name && (
+                      <div className="w-32 h-32 mx-auto mb-6 bg-gradient-hero rounded-full flex items-center justify-center text-white text-4xl font-bold overflow-hidden">
+                        {m.image_url ? (
+                          <img 
+                            src={m.image_url} 
+                            alt={m.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          m.name.charAt(0)
+                        )}
+                      </div>
                     )}
-                  </div>
-                  <h3 className="font-bold text-lg">{m.name}</h3>
-                  <p className="text-primary text-sm mb-2">{m.position}</p>
-                  <p className="text-muted-foreground text-sm">{m.bio}</p>
-                </CardContent>
-              </Card>
-            ))}
+                    {m.name && <h3 className="font-bold text-2xl mb-1">{m.name}</h3>}
+                    <p className="text-primary text-lg font-semibold mb-3">{m.position}</p>
+                    {m.bio && <p className="text-muted-foreground text-sm">{m.bio}</p>}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* Executive Committee Section */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold mb-6 text-center">Executive Committee</h3>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+              {leadership?.filter((m: LeadershipMember) => 
+                ['Chair', 'Vice Chair', 'Secretary General', 'Deputy Secretary General', 'Organizing Secretary', 'Secretary', 'Treasurer'].includes(m.position)
+              )?.map((m: LeadershipMember) => (
+                <Card key={m.id}>
+                  <CardContent className="p-6 text-center">
+                    {m.name && (
+                      <div className="w-24 h-24 mx-auto mb-4 bg-gradient-hero rounded-full flex items-center justify-center text-white text-2xl font-bold overflow-hidden">
+                        {m.image_url ? (
+                          <img 
+                            src={m.name.toLowerCase().includes('olila') ? olilaProfile : m.image_url} 
+                            alt={m.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          m.name.charAt(0)
+                        )}
+                      </div>
+                    )}
+                    {m.name && <h3 className="font-bold text-lg">{m.name}</h3>}
+                    <p className="text-primary text-sm mb-2 font-semibold">{m.position}</p>
+                    {m.bio && <p className="text-muted-foreground text-sm">{m.bio}</p>}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* Year Representatives Section */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold mb-6 text-center">Year Representatives</h3>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+              {leadership?.filter((m: LeadershipMember) => m.position.includes('Year'))?.map((m: LeadershipMember) => (
+                <Card key={m.id}>
+                  <CardContent className="p-6 text-center">
+                    <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-accent to-primary/30 rounded-full flex items-center justify-center">
+                      <Users className="w-10 h-10 text-white" />
+                    </div>
+                    <p className="text-primary text-sm font-semibold">{m.position}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* Task Force Committee Section */}
+          <div>
+            <div className="grid gap-6 justify-center">
+              {leadership?.filter((m: LeadershipMember) => m.position === 'Task Force Committee')?.map((m: LeadershipMember) => (
+                <Card key={m.id} className="max-w-md bg-accent/10">
+                  <CardContent className="p-8 text-center">
+                    <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-secondary to-secondary/50 rounded-full flex items-center justify-center">
+                      <Users className="w-10 h-10 text-white" />
+                    </div>
+                    <p className="text-lg font-semibold mb-2">{m.position}</p>
+                    <p className="text-muted-foreground text-sm">{m.bio}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
       </section>

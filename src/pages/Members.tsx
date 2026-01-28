@@ -12,6 +12,26 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
+interface LeadershipMember {
+  id: string;
+  name: string;
+  position: string;
+  bio: string;
+  display_order: number;
+  image_url: string | null;
+}
+
+interface CommunityMember {
+  id?: string;
+  name: string;
+  email?: string;
+  phone?: string;
+  year_of_study?: string;
+  course?: string;
+  interests?: string;
+  joined_at?: string;
+}
+
 // Leadership team data
 const LEADERSHIP_DATA = [
   { id: "1", name: "Prof. Collins Ouma", position: "Patron", bio: "Leading our vision in medical biotechnology education", display_order: 1, image_url: null },
@@ -87,7 +107,7 @@ const Members = () => {
         <div className="container">
           <h2 className="text-3xl font-bold mb-8 text-center">Leadership Team</h2>
           <div className="grid gap-6 md:grid-cols-3">
-            {leadership?.map((m: any) => (
+            {leadership?.map((m: LeadershipMember) => (
               <Card key={m.id}>
                 <CardContent className="p-6 text-center">
                   <div className="w-24 h-24 mx-auto mb-4 bg-gradient-hero rounded-full flex items-center justify-center text-white text-2xl font-bold overflow-hidden">
@@ -140,7 +160,7 @@ const Members = () => {
             // Authenticated - show members
             <>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {community?.map((m: any) => (
+                {community?.map((m: CommunityMember) => (
                   <Card key={m.id} className="hover:shadow-md transition-shadow">
                     <CardContent className="p-6">
                       <div className="flex items-start gap-4">

@@ -26,14 +26,6 @@ const Join = () => {
     interests: "",
   });
 
-  // Hardcoded membership tiers (no longer used - free signup only)
-  const tiers = [];
-  const tiersLoading = false;
-
-  // Hardcoded membership tiers (no longer used - free signup only)
-  const tiers = [];
-  const tiersLoading = false;
-
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -108,12 +100,12 @@ const Join = () => {
               Join MUMBSO - Free Membership
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleFormSubmit} className="space-y-6">
               <div>
                 <Label htmlFor="name">Full Name *</Label>
                 <Input
                   id="name"
-                  value={formData.Formname}
+                  value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
                   placeholder="John Doe"
@@ -148,11 +140,11 @@ const Join = () => {
                 <Select
                   value={formData.year_of_study}
                   onValueChange={(value) => setFormData({ ...formData, year_of_study: value })}
-                  required
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select your year" />
                   </SelectTrigger>
+                  <SelectContent>
                     <SelectItem value="Year 1">Year 1</SelectItem>
                     <SelectItem value="Year 2">Year 2</SelectItem>
                     <SelectItem value="Year 3">Year 3</SelectItem>

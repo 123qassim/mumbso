@@ -12,6 +12,22 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
+// Leadership team data
+const LEADERSHIP_DATA = [
+  { id: "1", name: "Prof. Ouma Collins", position: "Patron", bio: "Leading our vision in medical biotechnology education", display_order: 1, image_url: null },
+  { id: "2", name: "Christopher Olila", position: "Chair", bio: "Driving organizational strategy and member engagement", display_order: 2, image_url: null },
+  { id: "3", name: "June Siata", position: "Vice Chair", bio: "Supporting initiatives and event coordination", display_order: 3, image_url: null },
+  { id: "4", name: "Edward Kireu", position: "Secretary General", bio: "Managing communications and documentation", display_order: 4, image_url: null },
+  { id: "5", name: "Brian Junior", position: "Deputy Secretary General", bio: "Assisting with administrative and operational matters", display_order: 5, image_url: null },
+  { id: "6", name: "Festus Kiptoo", position: "Organizing Secretary", bio: "Coordinating events and member activities", display_order: 6, image_url: null },
+  { id: "7", name: "Alice Odero", position: "Secretary", bio: "Administrative support and member services", display_order: 7, image_url: null },
+  { id: "8", name: "Edwin Ogutu", position: "Treasurer", bio: "Managing finances and resource allocation", display_order: 8, image_url: null },
+  { id: "9", name: "Year 1 Representative", position: "Year 1 Representative", bio: "Voice of first year students in organizational decisions", display_order: 9, image_url: null },
+  { id: "10", name: "Year 2 Representative", position: "Year 2 Representative", bio: "Voice of second year students in organizational decisions", display_order: 10, image_url: null },
+  { id: "11", name: "Year 3 Representative", position: "Year 3 Representative", bio: "Voice of third year students in organizational decisions", display_order: 11, image_url: null },
+  { id: "12", name: "Year 4 Representative", position: "Year 4 Representative", bio: "Voice of fourth year students in organizational decisions", display_order: 12, image_url: null },
+];
+
 const Members = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -21,7 +37,7 @@ const Members = () => {
     queryKey: ["members"],
     queryFn: async () => {
       const { data } = await supabase.from("members").select("*").order("display_order");
-      return data || [];
+      return data || LEADERSHIP_DATA;
     },
   });
 
